@@ -1,6 +1,6 @@
-﻿namespace ProductsAPI
+﻿namespace ProductsAPI.DTOs
 {
-    public class ProductDetail
+    public class ProductDetailRequest
     {
         public int Id { get; set; }
         public string Code { get; set; }
@@ -9,10 +9,6 @@
         public string Country { get; set; } = string.Empty;
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-
         public int KindId { get; set; }
-        public Kind Kind { get; set; }
-
-
     }
 }

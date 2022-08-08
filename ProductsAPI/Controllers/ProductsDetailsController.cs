@@ -46,16 +46,26 @@ namespace ProductsAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<ProductDetail>>> AddProduct(ProductDetail prd)
+        public async Task<ActionResult<ProductDetail>> AddProduct(ProductDetailRequest prd)
         {
-            context.ProductDetails.Add(prd);
+            var productDetail = new ProductDetail
+            {
+                Code = prd.Code,
+                Name = prd.Name,
+                Price= prd.Price,
+                Country = prd.Country,
+                FromDate = prd.FromDate,
+                ToDate = prd.ToDate,
+                KindId = prd.KindId
+            };
+            context.ProductDetails.Add(productDetail);
             await context.SaveChangesAsync();
 
-            return Ok(await context.ProductDetails.ToListAsync());
+            return Ok(productDetail);
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<ProductDetail>>> Update(ProductDetail req)
+        public async Task<ActionResult<ProductDetail>> Update(ProductDetailRequest req)
         {
             var products = await context.ProductDetails.FindAsync(req.Id);
             if (products == null)
@@ -68,15 +78,14 @@ namespace ProductsAPI.Controllers
             products.FromDate = req.FromDate;
             products.ToDate = req.ToDate;
             products.KindId = req.KindId;
-            products.Kind = req.Kind;
 
             await context.SaveChangesAsync();
 
-            return Ok(await context.ProductDetails.ToListAsync());
+            return Ok(products);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<ProductDetail>>> Delete(int id)
+        public async Task<ActionResult<string>> Delete(int id)
         {
             var products = await context.ProductDetails.FindAsync(id);
             if (products == null)
@@ -85,7 +94,7 @@ namespace ProductsAPI.Controllers
             context.ProductDetails.Remove(products);
             await context.SaveChangesAsync();
 
-            return Ok(await context.ProductDetails.ToListAsync());
+            return Ok("Succesfully deleted!");
         }
     }
 }

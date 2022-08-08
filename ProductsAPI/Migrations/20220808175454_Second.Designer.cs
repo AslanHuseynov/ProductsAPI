@@ -12,8 +12,8 @@ using ProductsAPI.Database;
 namespace ProductsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220807104952_First")]
-    partial class First
+    [Migration("20220808175454_Second")]
+    partial class Second
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,35 +32,16 @@ namespace ProductsAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("MainProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("MainProductId");
-
-                    b.ToTable("Kinds");
-                });
-
-            modelBuilder.Entity("ProductsAPI.MainProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("MainProducts");
+                    b.ToTable("Kinds");
                 });
 
             modelBuilder.Entity("ProductsAPI.ProductDetail", b =>
@@ -71,8 +52,9 @@ namespace ProductsAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Code")
-                        .HasColumnType("int");
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -101,17 +83,6 @@ namespace ProductsAPI.Migrations
                     b.ToTable("ProductDetails");
                 });
 
-            modelBuilder.Entity("ProductsAPI.Kind", b =>
-                {
-                    b.HasOne("ProductsAPI.MainProduct", "MainProduct")
-                        .WithMany("Kinds")
-                        .HasForeignKey("MainProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MainProduct");
-                });
-
             modelBuilder.Entity("ProductsAPI.ProductDetail", b =>
                 {
                     b.HasOne("ProductsAPI.Kind", "Kind")
@@ -126,11 +97,6 @@ namespace ProductsAPI.Migrations
             modelBuilder.Entity("ProductsAPI.Kind", b =>
                 {
                     b.Navigation("ProductDetails");
-                });
-
-            modelBuilder.Entity("ProductsAPI.MainProduct", b =>
-                {
-                    b.Navigation("Kinds");
                 });
 #pragma warning restore 612, 618
         }
