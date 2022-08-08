@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProductsAPI.DTOs;
 
 namespace ProductsAPI.Controllers
 {
@@ -27,6 +28,21 @@ namespace ProductsAPI.Controllers
             if (products == null)
                 return BadRequest("Product not found");
             return Ok(products);
+        }
+
+        [HttpGet("get-productDTO/{id}")]
+        public async Task<ActionResult<ProductDetailDTO>> GetProductDTO(int id)
+        {
+            var product = await context.ProductDetails.FindAsync(id);
+            if (product == null)
+                return BadRequest("Product not found");
+            var productDTO = new ProductDetailDTO
+            {
+                Code = product.Code,
+                Name = product.Name,
+                Price = product.Price
+            };
+            return Ok(productDTO);
         }
 
         [HttpPost]
