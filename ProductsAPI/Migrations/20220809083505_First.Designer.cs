@@ -12,8 +12,8 @@ using ProductsAPI.Database;
 namespace ProductsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220808175454_Second")]
-    partial class Second
+    [Migration("20220809083505_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,23 @@ namespace ProductsAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ProductsAPI.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CountryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Countries");
+                });
 
             modelBuilder.Entity("ProductsAPI.Kind", b =>
                 {
@@ -56,9 +73,8 @@ namespace ProductsAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("FromDate")
                         .HasColumnType("datetime2");
@@ -78,6 +94,8 @@ namespace ProductsAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CountryId");
+
                     b.HasIndex("KindId");
 
                     b.ToTable("ProductDetails");
@@ -85,13 +103,26 @@ namespace ProductsAPI.Migrations
 
             modelBuilder.Entity("ProductsAPI.ProductDetail", b =>
                 {
+                    b.HasOne("ProductsAPI.Country", "Country")
+                        .WithMany("ProductDetails")
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ProductsAPI.Kind", "Kind")
                         .WithMany("ProductDetails")
                         .HasForeignKey("KindId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Country");
+
                     b.Navigation("Kind");
+                });
+
+            modelBuilder.Entity("ProductsAPI.Country", b =>
+                {
+                    b.Navigation("ProductDetails");
                 });
 
             modelBuilder.Entity("ProductsAPI.Kind", b =>

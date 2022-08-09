@@ -9,5 +9,6 @@ namespace ProductsAPI.Database
 
         public DbSet<ProductDetail> ProductDetails { get; set; }
         public DbSet<Kind> Kinds { get; set; }
+        public DbSet<Country> Countries { get; set; }
     }
 }

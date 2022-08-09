@@ -53,7 +53,7 @@ namespace ProductsAPI.Controllers
                 Code = prd.Code,
                 Name = prd.Name,
                 Price= prd.Price,
-                Country = prd.Country,
+                CountryId = prd.CountryId,
                 FromDate = prd.FromDate,
                 ToDate = prd.ToDate,
                 KindId = prd.KindId
@@ -74,7 +74,7 @@ namespace ProductsAPI.Controllers
             products.Code = req.Code;
             products.Name = req.Name;
             products.Price = req.Price;
-            products.Country = req.Country;
+            products.CountryId = req.CountryId;
             products.FromDate = req.FromDate;
             products.ToDate = req.ToDate;
             products.KindId = req.KindId;
