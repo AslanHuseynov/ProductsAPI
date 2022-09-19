@@ -70,7 +70,7 @@ namespace ProductsAPI.Controllers
             context.Kinds.Remove(kind);
             await context.SaveChangesAsync();
 
-            return Ok("Succesfully deleted!");
+            return Ok("\"Succesfully deleted!\"");
         }
     }
 }

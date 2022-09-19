@@ -26,7 +26,7 @@ namespace ProductsAPI.Controllers
         {
             var products = await context.ProductDetails.FindAsync(id);
             if (products == null)
-                return BadRequest("Product not found");
+                return BadRequest("\"Product not found\"");
             return Ok(products);
         }
 
@@ -35,7 +35,7 @@ namespace ProductsAPI.Controllers
         {
             var product = await context.ProductDetails.FindAsync(id);
             if (product == null)
-                return BadRequest("Product not found");
+                return BadRequest("\"Product not found\"");
             var productDTO = new ProductDetailDTO
             {
                 Code = product.Code,
@@ -69,7 +69,7 @@ namespace ProductsAPI.Controllers
         {
             var products = await context.ProductDetails.FindAsync(req.Id);
             if (products == null)
-                return BadRequest("Product not found");
+                return BadRequest("\"Product not found\"");
 
             products.Code = req.Code;
             products.Name = req.Name;
@@ -89,12 +89,12 @@ namespace ProductsAPI.Controllers
         {
             var products = await context.ProductDetails.FindAsync(id);
             if (products == null)
-                return BadRequest("Product not found");
+                return BadRequest("\"Product not found\"");
 
             context.ProductDetails.Remove(products);
             await context.SaveChangesAsync();
 
-            return Ok("Succesfully deleted!");
+            return Ok("\"Succesfully deleted!\"");
         }
     }
 }

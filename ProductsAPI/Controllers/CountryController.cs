@@ -40,7 +40,7 @@ namespace ProductsAPI.Controllers
         {
             var country = await context.Countries.FindAsync(id);
             if (country == null)
-                return BadRequest("Country not found");
+                return BadRequest("\"Country not found\"");
 
             var countryDTO = new CountryDTO()
             {
@@ -60,7 +60,7 @@ namespace ProductsAPI.Controllers
             context.Countries.Add(country);
             await context.SaveChangesAsync();
 
-            return Ok($"Country Added Successfully!");
+            return Ok("\"Country Added Successfully!\"");
         }
 
         [HttpPut]
@@ -74,7 +74,7 @@ namespace ProductsAPI.Controllers
 
             await context.SaveChangesAsync();
 
-            return Ok($"Country With Id: {country.Id} has successfully updated!");
+            return Ok($"\"Country With Id: {country.Id} has successfully updated!\"");
         }
 
         [HttpDelete("{id}")]
@@ -87,7 +87,7 @@ namespace ProductsAPI.Controllers
             context.Countries.Remove(country);
             await context.SaveChangesAsync();
 
-            return Ok("Succesfully deleted!");
+            return Ok("\"Succesfully deleted!\"");
         }
     }
 }
